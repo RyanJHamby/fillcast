@@ -12,3 +12,7 @@ Bootstrapped repo as spec-only. Decisions: fillcast is its own repo (not an engi
 ## 2026-10-18 21:02 EDT (at 796a78a)
 
 Wrote SPEC.md and ADR 0001. Adversarial subagent review found: H4/H2/H3/H6/H9 pass conditions and falsifiers were not exact complements; thresholds and primary cell were not fixed in a verifiable way; unlabeled quantitative claims. Fixed in SPEC: added a pre-registration rule (signed commit fixes primary cell, thresholds, planted-leak sets before each run), Holm correction, labels. Open: DESIGN.md s9.3 says the TSE study covered 'two instruments over 18 days' but arXiv:2609.13597 abstract says seven months of 2025 data (reviewer says 18 days is the held-out set, unverified by me); DESIGN left as-is pending decision. References were checked at abstract/Crossref level only. Name check: PyPI/crates.io/npm free; GitHub user FillCast exists (empty, 2022).
+
+## 2026-10-18 21:14 EDT (at bd05809)
+
+Corrected DESIGN s9.3 (TSE study: two instruments, seven months of data, not 18 days; wording kept general, 18-day held-out window not independently verified). Moved H10 (Rust vs C++ bake-off, no directional prediction) out of the SPEC hypothesis table into a protocol note. Author confirmed creating the public GitHub repo and pushing with three gate items still open: full reads of references, engine throughput reconciliation (1.3M vs ~2.5M), resume/site number agreement.

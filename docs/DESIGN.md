@@ -526,7 +526,7 @@ Thresholds marked TBD are fixed and logged (with `pow log`) before the correspon
 
 ## 9.3 The L3 → L2 information-loss study
 
-MBO is ground truth. Degrade it to aggregate price-level data (what most public sources offer), re-infer queue position under three cancel-allocation rules (front, quantity-weighted random, back), and compare against truth. This quantifies what an L2-based backtest of passive execution gets wrong and is motivated by recent work showing the allocation rule alone moves passive completion rates by several percentage points on two Tokyo Stock Exchange instruments `[R]`. Because that evidence is two instruments over 18 days, the study is repeated here on different products rather than assumed to generalize.
+MBO is ground truth. Degrade it to aggregate price-level data (what most public sources offer), re-infer queue position under three cancel-allocation rules (front, quantity-weighted random, back), and compare against truth. This quantifies what an L2-based backtest of passive execution gets wrong and is motivated by recent work showing the allocation rule alone moves passive completion rates by several percentage points on two Tokyo Stock Exchange instruments `[R]`. Because that evidence is two instruments (seven months of 2025 data, with a short held-out evaluation window), the study is repeated here on different products rather than assumed to generalize.
 
 ## 9.4 Ablations
 

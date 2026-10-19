@@ -1,0 +1,26 @@
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc,shapes.geometric,decorations.pathreplacing,patterns}
+\usepackage{xcolor}
+\renewcommand{\familydefault}{\sfdefault}
+\definecolor{cdata}{HTML}{1F5FA8}
+\definecolor{cctrl}{HTML}{15796F}
+\definecolor{cres}{HTML}{6A4C93}
+\definecolor{cgray}{HTML}{5A6570}
+\definecolor{cwarn}{HTML}{B4561B}
+\tikzset{
+  base/.style={rounded corners=1.8pt, line width=0.6pt, align=center, font=\scriptsize, inner sep=3pt, minimum height=8mm, text=black!85},
+  data/.style={base, draw=cdata, fill=cdata!9},
+  ctrl/.style={base, draw=cctrl, fill=cctrl!9},
+  res/.style={base, draw=cres, fill=cres!9},
+  art/.style={base, draw=black!65, fill=black!7},
+  ext/.style={base, draw=cgray, fill=white, dashed},
+  gate/.style={font=\tiny\bfseries, text=cwarn, draw=cwarn, rounded corners=1pt, inner sep=1.6pt, fill=white, line width=0.5pt},
+  arr/.style={-{Stealth[length=2.0mm,width=1.5mm]}, line width=0.6pt, draw=cgray!85!black},
+  arr2/.style={{Stealth[length=2.0mm,width=1.5mm]}-{Stealth[length=2.0mm,width=1.5mm]}, line width=0.6pt, draw=cgray!85!black},
+  darr/.style={-{Stealth[length=2.0mm,width=1.5mm]}, line width=0.6pt, dashed, draw=cgray!85!black},
+  lbl/.style={font=\tiny, text=cgray!90!black, inner sep=1pt},
+  band/.style={rounded corners=3pt, line width=0.7pt},
+}
+\newcommand{\dotsep}{\,$\cdot$\,}
+\renewcommand{\tiny}{\fontsize{6}{7}\selectfont}

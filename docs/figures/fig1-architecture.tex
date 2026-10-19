@@ -1,0 +1,73 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}
+% legend
+\node[draw=cdata, fill=cdata!9, minimum size=2.4mm, inner sep=0] at (0.3,10.1) {};
+\node[anchor=west, font=\scriptsize] at (0.5,10.1) {C++20 data plane};
+\node[draw=cctrl, fill=cctrl!9, minimum size=2.4mm, inner sep=0] at (4.0,10.1) {};
+\node[anchor=west, font=\scriptsize] at (4.2,10.1) {Rust control plane};
+\node[draw=cres, fill=cres!9, minimum size=2.4mm, inner sep=0] at (7.9,10.1) {};
+\node[anchor=west, font=\scriptsize] at (8.1,10.1) {Python research plane};
+\node[draw=cgray, dashed, minimum size=2.4mm, inner sep=0] at (12.2,10.1) {};
+\node[anchor=west, font=\scriptsize] at (12.4,10.1) {External / test harness};
+
+% bands
+\draw[band, draw=cctrl, fill=cctrl!4] (2.9,2.95) rectangle (7.3,9.45);
+\node[anchor=north west, font=\scriptsize\bfseries, text=cctrl] at (3.0,9.4) {CONTROL PLANE\dotsep Rust};
+\draw[band, draw=cdata, fill=cdata!4] (9.5,2.95) rectangle (14.1,9.45);
+\node[anchor=north west, font=\scriptsize\bfseries, text=cdata] at (9.6,9.4) {DATA PLANE\dotsep C++20};
+\draw[band, draw=cres, fill=cres!4] (2.9,0.3) rectangle (14.1,2.35);
+\node[anchor=north west, font=\scriptsize\bfseries, text=cres] at (3.0,2.3) {RESEARCH PLANE\dotsep Python};
+
+% journal
+\draw[rounded corners=3pt, draw=black!65, fill=black!7, line width=0.8pt] (7.9,2.95) rectangle (8.9,9.45);
+\node[rotate=90, font=\scriptsize\bfseries, text=black!80, align=center] at (8.4,6.2) {JOURNAL\\[1pt]\normalfont\tiny append-only\dotsep sequenced\dotsep hash-chained\dotsep mmap};
+
+% control boxes
+\node[ctrl, text width=3.6cm, minimum height=9mm] (feed) at (5.1,8.3) {Feed decode\dotsep A/B arbitration\\ITCH/MoldUDP64\dotsep DBN};
+\node[ctrl, text width=3.6cm, minimum height=9mm] (seq) at (5.1,7.1) {Sequencer\dotsep journal writer\\CRC per block\dotsep hash chain};
+\node[ctrl, text width=3.6cm, minimum height=9mm] (rep) at (5.1,5.9) {Replica coordinator\\fencing token\dotsep state hashes};
+\node[ctrl, text width=3.6cm, minimum height=9mm] (reg) at (5.1,4.7) {Model registry\dotsep telemetry export\\signed models\dotsep OpenMetrics};
+\node[ctrl, text width=3.6cm, minimum height=9mm] (sink) at (5.1,3.5) {Kafka sink (sidecar)\\tails output journal only};
+
+% externals
+\node[ext, minimum width=2.1cm] (mkt) at (1.2,8.3) {Market data\\ITCH\dotsep MBO};
+\node[ext, minimum width=2.1cm] (stby) at (1.2,5.9) {Standby\\replica};
+\node[ext, minimum width=2.1cm] (brk) at (1.2,3.5) {Kafka-compatible\\broker};
+\node[ext, minimum width=2.0cm] (mock) at (15.6,3.85) {Mock exchange\\(engine)};
+
+% data boxes
+\node[data, minimum width=4.2cm, minimum height=9mm] (book) at (11.9,8.3) {Book + queue tracker\\fixed-point ticks\dotsep flat ladder};
+\node[data, minimum width=2.0cm, minimum height=10mm] (feat) at (10.8,6.85) {Feature kernel\\integer\dotsep $O(1)$};
+\node[data, minimum width=2.0cm, minimum height=10mm] (lab) at (13.0,6.85) {Shadow labeler\\offline + online};
+\node[data, minimum width=4.2cm, minimum height=9mm] (inf) at (11.9,5.4) {Int8 inference\dotsep calibrator\\RCU hot-swap at event $n^{\ast}$};
+\node[data, minimum width=4.2cm, minimum height=11mm] (dec) at (11.9,3.85) {Decision\dotsep pre-trade risk gate\\OUCH codec\dotsep order session};
+
+% research boxes
+\node[res, minimum width=2.5cm] at (4.3,1.05) {Dataset builder\\audit column};
+\node[res, minimum width=2.5cm] at (7.1,1.05) {CPCV\dotsep leakage suite\\PIT1--PIT10};
+\node[res, minimum width=2.5cm] at (9.9,1.05) {Training\dotsep calibration\\quantize\dotsep parity gate};
+\node[res, minimum width=2.5cm] at (12.7,1.05) {Reports\\\texttt{fillcast verify}};
+
+% arrows
+\draw[arr] (mkt.east) -- (feed.west);
+\draw[arr] (feed.south) -- (seq.north);
+\draw[arr] (seq.east) -- (7.9,7.1);
+\draw[arr] (reg.east) -- (7.9,4.7);
+\draw[arr] (7.9,3.5) -- (sink.east);
+\draw[arr] (sink.west) -- (brk.east);
+\draw[arr2] (rep.west) -- (stby.east);
+\draw[arr] (8.9,8.3) -- (book.west);
+\draw[arr] (feat.north |- book.south) -- (feat.north);
+\draw[arr] (lab.north |- book.south) -- (lab.north);
+\draw[arr] (feat.south) -- (feat.south |- inf.north);
+\draw[arr] (inf.south) -- (dec.north);
+\draw[arr] (dec.east) -- node[above=1pt, lbl] {OUCH} (mock.west);
+\draw[arr2] (8.4,2.95) -- (8.4,2.35);
+\node[lbl, anchor=west] at (8.55,2.65) {mmap / Arrow (read)\dotsep signed model (publish)};
+% gates
+\node[gate] at (13.0,7.75) {exact-match gate};
+\node[gate] at (10.8,7.75) {PIT1--3};
+\end{tikzpicture}
+\end{document}

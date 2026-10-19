@@ -1,0 +1,35 @@
+\documentclass[tikz,border=4pt]{standalone}
+\input{style}
+\begin{document}
+\begin{tikzpicture}
+% strips
+\draw[band, draw=cctrl, fill=cctrl!4] (2.1,1.75) rectangle (8.35,4.6);
+\node[anchor=north west, font=\scriptsize\bfseries, text=cctrl] at (2.2,4.55) {CONTROL PLANE\dotsep Rust};
+\draw[band, draw=cdata, fill=cdata!4] (8.5,1.75) rectangle (16.75,4.6);
+\node[anchor=north east, font=\scriptsize\bfseries, text=cdata] at (16.65,4.55) {DATA PLANE\dotsep C++20, single pinned thread};
+% boxes
+\node[ext,  minimum width=1.85cm, minimum height=10mm] (n0) at (1.05,3.0) {MBO feed\\A / B};
+\node[ctrl, minimum width=1.85cm, minimum height=10mm] (n1) at (3.15,3.0) {Arbitrate\\gap detect};
+\node[ctrl, minimum width=1.85cm, minimum height=10mm] (n2) at (5.25,3.0) {Sequence\\+ CRC};
+\node[art,  minimum width=1.85cm, minimum height=10mm] (n3) at (7.35,3.0) {Journal\\(mmap)};
+\node[data, minimum width=1.85cm, minimum height=10mm] (n4) at (9.6,3.0) {Book +\\queue};
+\node[data, minimum width=1.85cm, minimum height=10mm] (n5) at (11.7,3.0) {Feature\\kernel};
+\node[data, minimum width=1.85cm, minimum height=10mm] (n6) at (13.8,3.0) {Int8 heads\\+ calibrate};
+\node[data, minimum width=1.85cm, minimum height=10mm] (n7) at (15.9,3.0) {Decision\\+ risk gate};
+\foreach \a/\b in {n0/n1,n1/n2,n2/n3,n3/n4,n4/n5,n5/n6,n6/n7}{\draw[arr] (\a) -- (\b);}
+% budgets
+\node[lbl] at (9.6,2.25) {$\le$150 ns};
+\node[lbl] at (11.7,2.25) {$\le$150 ns};
+\node[lbl] at (13.8,2.25) {$\le$400 ns};
+\draw[decorate, decoration={brace, mirror, amplitude=4pt}, line width=0.5pt, draw=cgray] (8.65,1.7) -- (16.7,1.7);
+\node[font=\scriptsize, text=black!80, align=center] at (12.7,1.05) {End-to-end decision $\le$ 1\,$\mu$s p99\\[1pt]\tiny stage budgets are targets to validate, not results};
+% labeler branch
+\node[data, minimum width=2.6cm, minimum height=9mm] (lab) at (9.6,5.9) {Shadow labeler\\replays same stream};
+\node[res, minimum width=2.6cm, minimum height=9mm] (ds) at (14.2,5.9) {Dataset builder\\(Python)};
+\draw[arr] (n4.north) -- (lab.south);
+\draw[arr] (lab.east) -- node[above=2pt, lbl, align=center] {labels mature\\after $\tau_{\max}$} (ds.west);
+\node[gate] at (9.6,5.05) {exact-match gate};
+\node[gate] at (3.15,3.75) {F1,F2};
+\node[gate] at (5.25,3.75) {hash chain};
+\end{tikzpicture}
+\end{document}

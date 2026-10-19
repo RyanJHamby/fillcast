@@ -1,0 +1,17 @@
+\usepackage{etoolbox}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\AtBeginEnvironment{longtable}{\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.2}}
+\AtBeginEnvironment{verbatim}{\footnotesize\setlength{\baselineskip}{8.2pt}}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Fillcast Design Document}
+\fancyhead[R]{\small Draft v0.2}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parskip}{4pt}
+\usepackage{microtype}
+\usepackage{float}
+\floatplacement{figure}{H}

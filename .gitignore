@@ -1,0 +1,16 @@
+.DS_Store
+# LaTeX / Pandoc build intermediates
+docs/build/*.aux
+docs/build/*.log
+docs/build/*.out
+docs/build/*.tex.bak
+docs/build/tmp/
+# Raw market data is never committed (see manifests/)
+data/
+*.dbn
+*.dbn.zst
+# Python / editors
+__pycache__/
+.venv/
+.idea/
+.vscode/
